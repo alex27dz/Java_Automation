@@ -1,0 +1,20 @@
+name: Google Search Test Pipeline
+
+trigger:
+  branches:
+    include:
+      - main
+
+jobs:
+  - job: BuildAndTest
+    pool:
+      vmImage: "ubuntu-latest"
+
+    steps:
+      - task: Maven@3
+        inputs:
+          mavenPomFile: "pom.xml"
+          goals: "clean test"
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/testng-results.xml"
